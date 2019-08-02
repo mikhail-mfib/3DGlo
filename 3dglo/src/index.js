@@ -3,7 +3,11 @@
 import "@babel/polyfill";
 import 'nodelist-foreach-polyfill';
 import elementClosest from 'element-closest';
+import 'whatwg-fetch';
+import 'element-remove';
+
 elementClosest(window);
+require('formdata-polyfill');
 
 import countTimer from './modules/countTimer';
 import toggleMenu from './modules/toggleMenu';

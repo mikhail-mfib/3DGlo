@@ -22,6 +22,9 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "element-closest": "^3.0.1",
-    "nodelist-foreach-polyfill": "^1.2.0"
+    "element-remove": "^1.0.4",
+    "formdata-polyfill": "^3.0.18",
+    "nodelist-foreach-polyfill": "^1.2.0",
+    "whatwg-fetch": "^3.0.0"
   }
 }

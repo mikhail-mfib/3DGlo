@@ -2,8 +2,7 @@ const sendForm = () => {
     const errorMessage = 'Что-то пошло не так',
           successMessage = `Мы скоро с <span style='color: red'>Вами</span> свяжемся!`,
           statusMessageContainer = document.createElement('div'),
-          statusMessage = document.createElement('div'),
-          forms = document.querySelectorAll('form');
+          statusMessage = document.createElement('div');
     
     const removeMessage = () => {
             statusMessage.textContent = '';
@@ -13,25 +12,29 @@ const sendForm = () => {
     statusMessageContainer.classList.add('loader-container');
     statusMessageContainer.appendChild(statusMessage);
 
-    forms.forEach((form) => {
-        document.body.addEventListener('input', (evt) => {
-            if(evt.target.matches('.form-name, #form2-name, .mess')) {
-                evt.target.value = evt.target.value.replace(/[^а-я ]/gi, '');
-            }
+    document.body.addEventListener('input', (evt) => {
+        if(evt.target.matches('.form-name, #form2-name, .mess')) {
+            evt.target.value = evt.target.value.replace(/[^а-я ]/gi, '');
+        }
 
-            if(evt.target.matches('.form-phone')) {
-                evt.target.value = evt.target.value.replace(/[^0-9+]/gi, '');
-            }
-        });
+        if(evt.target.matches('.form-phone')) {
+            evt.target.value = evt.target.value.replace(/[^0-9+]/gi, '');
+        }
+    });
 
-        form.addEventListener('submit', (evt) => {
+    document.body.addEventListener('submit', (evt) => {
+        let target;
+
+        if(evt.target.tagName == 'FORM') {
             evt.preventDefault();
-            const elementsForm = [...form.elements].filter(item => item.tagName !== 'BUTTON'),
-                  formData = new FormData(form);
+            target = evt.target;
+
+            const   elementsForm = [...target.elements].filter(item => item.tagName !== 'BUTTON'), 
+                    formData = new FormData(target);
 
             let body = {};
     
-            form.appendChild(statusMessageContainer);
+            target.appendChild(statusMessageContainer);
             statusMessage.classList.add('loader');
             formData.forEach((val, key) => {body[key] = val;});
             elementsForm.forEach((input) => {input.value = '';});
@@ -53,8 +56,10 @@ const sendForm = () => {
                 });
             
             setTimeout(removeMessage, 4000);
-        });
+            
+        }
     });
+
 
     const postDate = (body) => {
         return fetch('./server.php', {
